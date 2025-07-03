@@ -1,0 +1,278 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #239ac2;
+  margin: 0;
+}
+
+.background {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background: radial-gradient(circle, #fff3 1px, transparent 1px),
+              radial-gradient(circle, #fff2 1px, transparent 1px);
+  background-size: 40px 40px, 80px 80px;
+  background-position: 0 0, 20px 20px;
+  animation: moveBg 10s linear infinite;
+}
+@keyframes moveBg {
+  0% { background-position: 0 0, 20px 20px; }
+  100% { background-position: 40px 40px, 60px 60px; }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.birthdayCard, .message-card {
+  position: relative;
+  z-index: 2;
+}
+
+/* Card Flip Effect for Black Card */
+.card {
+  width: 260px;
+  height: 260px;
+  perspective: 1000px;
+}
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+.card-front, .card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+}
+.card-front {
+  background: #111;
+}
+.card-front img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.card-back {
+  background: #222;
+  color: #fff;
+  transform: rotateY(180deg);
+  font-size: 1.1rem;
+  padding: 20px;
+}
+
+.message-card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #0004;
+  padding: 32px 40px;
+  min-width: 340px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.message-card h1 {
+  font-family: 'Brush Script MT', cursive, sans-serif;
+  font-size: 2.2rem;
+  margin: 0 0 16px 0;
+}
+.message-card p {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0 0 16px 0;
+}
+.footer {
+  font-size: 0.95rem;
+  color: #444;
+  margin-top: 12px;
+}
+.footer span {
+  color: #e25555;
+  font-weight: bold;
+}
+
+.birthdayCard {
+  position: relative;
+  width: 800px;
+  height: 1100px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform: perspective(1200px);
+  transition: 1s;
+  margin-right: 40px;
+}
+
+.birthdayCard:hover {
+  transform: perspective(2500px) rotate(5deg);
+  box-shadow: inset 100px 20px 100px rgba(0, 0, 0, 0.2),
+    0 10px 100px rgba(0, 0, 0, 0.5);
+}
+
+.birthdayCard:hover .cardFront {
+  transform: rotateY(-160deg);
+}
+
+.birthdayCard:hover .happy {
+  visibility: hidden;
+}
+
+.cardFront {
+  position: relative;
+  background-color: #fff;
+  width: 250px;
+  height: 350px;
+  overflow: hidden;
+  transform-origin: left;
+  box-shadow: inset 100px 20px 100px rgba(0, 0, 0, 0.2),
+    30px 0 50px rgba(0, 0, 0, 0.4);
+  transition: 0.6s;
+}
+
+.happy {
+  font-family: Tahoma, sans-serif;
+  text-align: center;
+  margin: 30px;
+  background-image: linear-gradient(120deg, #ffd856 0%, #f98c6e 100%);
+  transition: 0.1s;
+}
+
+.balloons {
+  position: absolute;
+}
+
+.balloon-1,
+.balloon-2,
+.balloon-3,
+.balloon-4 {
+  position: absolute;
+  width: 85px;
+  height: 95px;
+  border-radius: 50%;
+}
+
+.balloon-1 {
+  background-color: rgba(255, 40, 90, 0.7);
+  left: -10px;
+  top: 50px;
+}
+
+.balloon-2 {
+  background-color: rgba(9, 215, 160, 0.7);
+  left: 50px;
+  top: 20px;
+}
+
+.balloon-3 {
+  background-color: rgba(255, 186, 26, 0.7);
+  left: 110px;
+  top: 50px;
+}
+
+.balloon-4 {
+  background-color: rgba(12, 122, 159, 0.7);
+  left: 170px;
+  top: 50px;
+}
+
+.balloon-1::before,
+.balloon-2::before,
+.balloon-3::before,
+.balloon-4::before {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 155px;
+  background-color: #ffc848;
+  top: 95px;
+  left: 43px;
+}
+
+.balloon-1::after,
+.balloon-2::after,
+.balloon-3::after,
+.balloon-4::after {
+  content: "";
+  position: absolute;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  top: 94px;
+  left: 37px;
+}
+
+.balloon-1::after {
+  border-bottom: 10px solid #ff3e6b;
+}
+
+.balloon-2::after {
+  border-bottom: 10px solid #04b183;
+}
+
+.balloon-3::after {
+  border-bottom: 10px solid #ffc94c;
+}
+
+.balloon-4::after {
+  border-bottom: 10px solid #13a9bd;
+}
+
+.cardInside {
+  position: absolute;
+  background-color: #fff;
+  width: 250px;
+  height: 350px;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  box-shadow: inset 100px 20px 100px rgba(0, 0, 0, 0.2);
+}
+
+p {
+  font-family: "Brush Script MT", cursive;
+  margin: 40px;
+  color: #333;
+}
+
+.name {
+  position: absolute;
+  left: 150px;
+  top: 200px;
+  color: #333;
+}
+
+.back {
+  font-family: Tahoma, sans-serif;
+  color: #333;
+  text-align: center;
+  margin: 30px;
+  outline-color: #333;
+  outline-style: dotted;
+}
+
+.wish-message {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  font-size: 3.2rem;
+  color: #1976d2;
+  font-weight: normal;
+  text-align: left;
+  text-shadow: none;
+} 

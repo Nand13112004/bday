@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday</title>
+    <link rel="stylesheet" href="page2.css" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .background {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            background: radial-gradient(circle, #fff3 1px, transparent 1px),
+                        radial-gradient(circle, #fff2 1px, transparent 1px);
+            background-size: 40px 40px, 80px 80px;
+            background-position: 0 0, 20px 20px;
+            animation: moveBg 10s linear infinite;
+        }
+        @keyframes moveBg {
+            0% { background-position: 0 0, 20px 20px; }
+            100% { background-position: 40px 40px, 60px 60px; }
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .birthdayCard {
+            width: 400px;
+            height: 340px;
+            perspective: 1200px;
+            position: relative;
+            margin-right: 40px;
+        }
+        .cardInner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 1s;
+            transform-style: preserve-3d;
+        }
+        .birthdayCard:hover .cardInner {
+            transform: rotateY(180deg);
+        }
+        .cardFront, .cardBack {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px #0002;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .cardFront {
+            z-index: 2;
+            flex-direction: column;
+        }
+        .cardBack {
+            transform: rotateY(180deg);
+            z-index: 1;
+            flex-direction: row;
+            padding: 0 10px;
+        }
+        .cardBack .left-img {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #eee;
+            padding-right: 10px;
+        }
+        .cardBack .left-img img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .cardBack .right-wish {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 20px;
+        }
+        .wish-message {
+            font-family: 'Brush Script MT', cursive, sans-serif;
+            font-size: 1.3rem;
+            color: #333;
+            text-align: left;
+        }
+        .message-card {
+            background: rgba(255,255,255,0.85);
+            border-radius: 16px;
+            box-shadow: 0 4px 32px #0004;
+            padding: 32px 40px;
+            min-width: 340px;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .message-card h1 {
+            font-family: 'Brush Script MT', cursive, sans-serif;
+            font-size: 2.2rem;
+            margin: 0 0 16px 0;
+        }
+        .message-card p {
+            font-size: 1.1rem;
+            color: #333;
+            margin: 0 0 16px 0;
+        }
+        .footer {
+            font-size: 0.95rem;
+            color: #444;
+            margin-top: 12px;
+        }
+        .footer span {
+            color: #e25555;
+            font-weight: bold;
+        }
+    </style>
+  </head>
+  <body>
+    <canvas id="bg3d" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;"></canvas>
+    <div class="container">
+      <div class="birthdayCard">
+        <div class="cardInner">
+          <div class="cardFront">
+            <h3 class="happy">HAPPY BIRTHDAY</h3>
+            <div class="balloons">
+              <div class="balloon-1"></div>
+              <div class="balloon-2"></div>
+              <div class="balloon-3"></div>
+              <div class="balloon-4"></div>
+            </div>
+          </div>
+          <div class="cardBack">
+            <div class="left-img">
+              <input type="file" id="photoInput" accept="image/*" style="display:none;" />
+              <img id="uploadedPhoto" src="C:\Users\Kruti Jasani\Desktop\Birthday\Birthday\birthday jpg.jpg" alt="Your Photo" style="display:block; width:200px; height:200px; object-fit:cover; border-radius:12px; margin-top:10px; cursor:pointer;" onclick="document.getElementById('photoInput').click();" />
+            </div>
+            <div class="right-wish">
+              <div class="wish-message">
+                <div style="font-size:1.3rem; color:#333; margin-bottom: 18px;">Wishing you a day filled with happiness and a year filled with joy!</div>
+                Happy Birthday Mummy!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Sparkle dots generate karva mate
+      for(let i=0; i<40; i++) {
+        const s = document.createElement('div');
+        s.className = 'sparkle';
+        s.style.width = s.style.height = (Math.random()*12+8) + 'px';
+        s.style.left = (Math.random()*100) + 'vw';
+        s.style.top = (Math.random()*100) + 'vh';
+        s.style.animationDuration = (Math.random()*2+2) + 's';
+        document.getElementById('sparkle-bg').appendChild(s);
+      }
+      // Photo upload preview
+      document.getElementById('photoInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if(file) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            const img = document.getElementById('uploadedPhoto');
+            img.src = evt.target.result;
+            img.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // --- 3D Balloons and Firework with three.js ---
+      const canvas = document.getElementById('bg3d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+      camera.position.z = 20;
+
+      // Balloons
+      const balloonColors = [0xff4b7b, 0x4be1ff, 0xffe14b, 0x7bff4b, 0xff4be1];
+      function createBalloon(color, x, y, z) {
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+        const material = new THREE.MeshPhongMaterial({ color, shininess: 80 });
+        const balloon = new THREE.Mesh(geometry, material);
+        balloon.position.set(x, y, z);
+        // String
+        const stringGeom = new THREE.CylinderGeometry(0.05, 0.05, 3, 8);
+        const stringMat = new THREE.MeshBasicMaterial({ color: 0x333333 });
+        const string = new THREE.Mesh(stringGeom, stringMat);
+        string.position.set(0, -2, 0);
+        balloon.add(string);
+        return balloon;
+      }
+      let balloons = [];
+      for (let i = 0; i < 7; i++) {
+        let x = (Math.random()-0.5)*18;
+        let y = -10 - Math.random()*10;
+        let z = (Math.random()-0.5)*8;
+        let color = balloonColors[i%balloonColors.length];
+        let balloon = createBalloon(color, x, y, z);
+        scene.add(balloon);
+        balloons.push(balloon);
+      }
+
+      // Light
+      const light = new THREE.PointLight(0xffffff, 1, 100);
+      light.position.set(0, 20, 20);
+      scene.add(light);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+
+      // Firework particles
+      let fireworks = [];
+      function createFirework(x, y, z) {
+        let group = new THREE.Group();
+        let color = balloonColors[Math.floor(Math.random()*balloonColors.length)];
+        for (let i = 0; i < 40; i++) {
+          let geom = new THREE.SphereGeometry(0.12, 8, 8);
+          let mat = new THREE.MeshBasicMaterial({ color });
+          let p = new THREE.Mesh(geom, mat);
+          let theta = Math.random()*2*Math.PI;
+          let phi = Math.random()*Math.PI;
+          let speed = 0.7 + Math.random()*0.7;
+          p.userData = {
+            vx: Math.sin(phi)*Math.cos(theta)*speed,
+            vy: Math.cos(phi)*speed,
+            vz: Math.sin(phi)*Math.sin(theta)*speed,
+            life: 0
+          };
+          group.add(p);
+        }
+        group.position.set(x, y, z);
+        scene.add(group);
+        fireworks.push(group);
+      }
+
+      // Firework on click
+      canvas.addEventListener('click', function(e) {
+        let x = (Math.random()-0.5)*16;
+        let y = 6 + Math.random()*6;
+        let z = (Math.random()-0.5)*8;
+        createFirework(x, y, z);
+      });
+
+      // Auto firework every 4 seconds
+      setInterval(() => {
+        let x = (Math.random()-0.5)*16;
+        let y = 6 + Math.random()*6;
+        let z = (Math.random()-0.5)*8;
+        createFirework(x, y, z);
+      }, 4000);
+
+      // Animate
+      function animate() {
+        requestAnimationFrame(animate);
+        // Balloons float up
+        for (let b of balloons) {
+          b.position.y += 0.02 + Math.random()*0.01;
+          b.position.x += Math.sin(Date.now()/700 + b.position.y)*0.003;
+          if (b.position.y > 15) {
+            b.position.y = -12 - Math.random()*8;
+            b.position.x = (Math.random()-0.5)*18;
+          }
+        }
+        // Firework particles
+        for (let group of fireworks) {
+          for (let p of group.children) {
+            p.position.x += p.userData.vx;
+            p.position.y += p.userData.vy;
+            p.position.z += p.userData.vz;
+            p.userData.vy -= 0.02; // gravity
+            p.userData.life += 1;
+            if (p.userData.life > 60) p.material.opacity = Math.max(0, 1-(p.userData.life-60)/30);
+          }
+        }
+        // Remove old fireworks
+        fireworks = fireworks.filter(group => {
+          let alive = group.children.some(p => p.userData.life < 90);
+          if (!alive) scene.remove(group);
+          return alive;
+        });
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // Responsive
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth/window.innerHeight;
+        camera.updateProjectionMatrix();
+      });
+    </script>
+  </body>
+</html> 
